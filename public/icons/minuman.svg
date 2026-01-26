@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="liquidGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Glass -->
+  <path d="M30,20 L35,85 Q35,90 50,90 Q65,90 65,85 L70,20 Z" fill="#e0f7fa" stroke="#bbb" stroke-width="1" fill-opacity="0.3" />
+  
+  <!-- Liquid -->
+  <path d="M32,40 L34,83 Q35,88 50,88 Q65,88 66,83 L68,40 Z" fill="url(#liquidGradient)" />
+  
+  <!-- Ice Cubes -->
+  <rect x="40" y="50" width="10" height="10" fill="#fff" fill-opacity="0.6" stroke="#fff" />
+  <rect x="50" y="60" width="10" height="10" fill="#fff" fill-opacity="0.6" stroke="#fff" />
+  <rect x="45" y="35" width="10" height="10" fill="#fff" fill-opacity="0.6" stroke="#fff" />
+
+  <!-- Straw -->
+  <path d="M55,90 L80,10" stroke="red" stroke-width="3" stroke-linecap="round" />
+</svg>

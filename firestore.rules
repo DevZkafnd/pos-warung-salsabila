@@ -1,0 +1,34 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Fungsi bantuan untuk mengecek autentikasi
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Aturan untuk Produk
+    match /products/{productId} {
+      allow read: if true; // Publik boleh baca menu
+      allow write: if isAuthenticated(); // Hanya user login (kasir/admin) boleh ubah
+    }
+
+    // Aturan untuk Transaksi
+    match /transactions/{transactionId} {
+      allow create: if isAuthenticated(); // Kasir boleh buat transaksi
+      allow read: if isAuthenticated(); // Kasir boleh lihat history
+      allow update, delete: if false; // Transaksi tidak boleh diubah/hapus (audit trail)
+    }
+
+    // Aturan untuk Pengaturan Toko (Store Info)
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+    
+    // Default deny untuk koleksi lain yang tidak didefinisikan
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

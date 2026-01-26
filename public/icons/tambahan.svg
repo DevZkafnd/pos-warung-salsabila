@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="bowlGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:#fff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ddd;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Bowl -->
+  <path d="M20,50 Q50,90 80,50" fill="url(#bowlGradient)" stroke="#999" stroke-width="1" />
+  <ellipse cx="50" cy="50" rx="30" ry="10" fill="#f5f5f5" stroke="#ddd" stroke-width="1" />
+
+  <!-- Snacks/Chips -->
+  <circle cx="45" cy="45" r="8" fill="#FFD700" stroke="#DAA520" />
+  <circle cx="55" cy="48" r="8" fill="#FFD700" stroke="#DAA520" />
+  <circle cx="50" cy="40" r="8" fill="#FFD700" stroke="#DAA520" />
+  
+  <!-- Steam -->
+  <path d="M40,30 Q45,20 40,10" stroke="#ddd" fill="none" stroke-width="2" opacity="0.5" />
+  <path d="M50,30 Q55,20 50,10" stroke="#ddd" fill="none" stroke-width="2" opacity="0.5" />
+  <path d="M60,30 Q65,20 60,10" stroke="#ddd" fill="none" stroke-width="2" opacity="0.5" />
+</svg>
