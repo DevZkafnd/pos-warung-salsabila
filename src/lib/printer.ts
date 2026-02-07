@@ -52,6 +52,14 @@ export const printReceipt = (data: TransactionData) => {
           text += `Tgl: ${new Date().toLocaleString('id-ID')}\n`;
       }
       text += `No : ${data.id || 'N/A'}\n`;
+      
+      if (data.customerName) {
+        text += `Nama  : ${data.customerName.substring(0, 24)}\n`;
+      }
+      if (data.customerAddress) {
+        text += `Alamat: ${data.customerAddress.substring(0, 24)}\n`;
+      }
+
       text += dashedLine() + "\n";
 
       // Items

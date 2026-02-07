@@ -1,6 +1,6 @@
 "use client";
 
-import { Store, History, LogOut } from "lucide-react";
+import { Store, History, LogOut, Package } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -26,7 +26,8 @@ export function MobileNavbar() {
   if (pathname === "/login") return null;
 
   const navItems = [
-    { href: "/pos", label: "Menu", icon: Store },
+    { href: "/pos", label: "Kasir", icon: Store },
+    { href: "/products", label: "Produk", icon: Package },
     { href: "/history", label: "Riwayat", icon: History },
   ];
 

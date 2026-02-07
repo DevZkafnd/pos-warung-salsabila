@@ -9,6 +9,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetFooter
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Trash2, Plus, Minus, ArrowLeft, QrCode } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Transaction, TransactionData } from "@/types";
 import Image from "next/image";
 
@@ -16,6 +18,8 @@ export function CartSheet() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isPaymentMode, setIsPaymentMode] = useState(false);
+  const [customerName, setCustomerName] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
   
   const { items, removeFromCart, decreaseQty, addToCart, clearCart, getTotalPrice, getTotalItems } = useCartStore();
   const totalAmount = getTotalPrice();
@@ -62,6 +66,8 @@ export function CartSheet() {
         totalAmount,
         cashAmount: totalAmount,
         changeAmount: 0,
+        customerName,
+        customerAddress,
         timestamp: new Date()
       };
 
@@ -111,19 +117,40 @@ export function CartSheet() {
         
         <div className="flex-1 overflow-y-auto p-4">
           {isPaymentMode ? (
-             <div className="flex flex-col items-center justify-center h-full space-y-6">
-                <div className="text-center">
+             <div className="flex flex-col items-center h-full space-y-6 pt-4">
+                <div className="w-full space-y-4 px-1">
+                    <div className="space-y-2">
+                        <Label htmlFor="name">Nama Pembeli</Label>
+                        <Input 
+                            id="name" 
+                            placeholder="Contoh: Budi" 
+                            value={customerName}
+                            onChange={(e) => setCustomerName(e.target.value)}
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="address">Alamat / Kosan</Label>
+                        <Input 
+                            id="address" 
+                            placeholder="Contoh: Kosan Mawar No. 12" 
+                            value={customerAddress}
+                            onChange={(e) => setCustomerAddress(e.target.value)}
+                        />
+                    </div>
+                </div>
+
+                <div className="text-center w-full pt-4 border-t">
                   <p className="text-sm text-muted-foreground">Total Pembayaran</p>
                   <h2 className="text-3xl font-bold text-primary">{formatRupiah(totalAmount)}</h2>
                 </div>
                 
-                <div className="bg-white p-4 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center w-64 h-64">
+                <div className="bg-white p-4 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center w-64 h-64 shrink-0">
                    {/* Placeholder for QR Code */}
                    <QrCode className="h-32 w-32 text-gray-800" />
                    <p className="mt-2 text-sm font-semibold text-gray-600">Scan QRIS</p>
                 </div>
 
-                <p className="text-center text-sm text-muted-foreground max-w-xs">
+                <p className="text-center text-sm text-muted-foreground max-w-xs pb-4">
                   Tunjukkan QR Code ini kepada pelanggan untuk melakukan pembayaran.
                 </p>
              </div>

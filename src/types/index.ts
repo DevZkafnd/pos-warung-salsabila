@@ -26,6 +26,8 @@ export interface Transaction {
   totalAmount: number;
   cashAmount: number;
   changeAmount: number;
+  customerName?: string;
+  customerAddress?: string;
   timestamp: Timestamp;
 }
 
