@@ -40,8 +40,9 @@ export const printReceipt = (data: TransactionData) => {
   
   try {
       // Header
-      text += center("WARUNG SALSABILA") + "\n";
-      text += center("Mobile Cloud POS") + "\n";
+      text += center("WARUNG SALSABILA AL-ARIEF") + "\n";
+      text += center("Jln. Sukabirus") + "\n";
+      text += center("NO: 0813-8975-2975") + "\n";
       text += dashedLine() + "\n";
       
       // Transaction Info
