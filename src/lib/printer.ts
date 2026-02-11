@@ -96,9 +96,6 @@ export const printReceipt = (data: TransactionData) => {
         text += formatRow("Ongkir", formatRupiah(safeDeliveryFee)) + "\n";
       }
       text += formatRow("Total", formatRupiah(safeFinalTotal)) + "\n";
-      text += dashedLine() + "\n"; // Separator before payment info
-      text += formatRow("Tunai", formatRupiah(safeCash)) + "\n";
-      text += formatRow("Kembali", formatRupiah(safeChange)) + "\n";
 
       text += dashedLine() + "\n";
       text += center("Terima Kasih") + "\n";
