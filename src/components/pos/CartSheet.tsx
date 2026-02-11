@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCartStore } from "@/lib/store";
-import { formatRupiah } from "@/lib/utils";
+import { formatRupiah, parsePrice } from "@/lib/utils";
 import { db, auth } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp, Timestamp } from "firebase/firestore";
 import { printReceipt } from "@/lib/printer";
@@ -20,9 +20,12 @@ export function CartSheet() {
   const [isPaymentMode, setIsPaymentMode] = useState(false);
   const [customerName, setCustomerName] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
+  const [deliveryFee, setDeliveryFee] = useState<string>("");
   
   const { items, removeFromCart, decreaseQty, addToCart, clearCart, getTotalPrice, getTotalItems } = useCartStore();
-  const totalAmount = getTotalPrice();
+  const subTotal = getTotalPrice();
+  const deliveryFeeNum = parsePrice(deliveryFee);
+  const finalTotal = subTotal + deliveryFeeNum;
   const totalItems = getTotalItems();
 
   const getCategoryIcon = (category: string) => {
@@ -49,9 +52,13 @@ export function CartSheet() {
           price: item.price,
           qty: item.qty
         })),
-        totalAmount,
-        cashAmount: totalAmount, // Simplification: assume exact cash or handle cash input dialog
+        totalAmount: subTotal,
+        deliveryFee: deliveryFeeNum,
+        finalAmount: finalTotal,
+        cashAmount: finalTotal, // Simplification: assume exact cash or handle cash input dialog
         changeAmount: 0,
+        customerName,
+        customerAddress,
         timestamp: serverTimestamp()
       };
 
@@ -63,8 +70,10 @@ export function CartSheet() {
         id: `INV-${Date.now().toString().slice(-6)}`, // Simple ID generation
         userId,
         items: transactionData.items,
-        totalAmount,
-        cashAmount: totalAmount,
+        totalAmount: subTotal,
+        deliveryFee: deliveryFeeNum,
+        finalAmount: finalTotal,
+        cashAmount: finalTotal,
         changeAmount: 0,
         customerName,
         customerAddress,
@@ -137,11 +146,33 @@ export function CartSheet() {
                             onChange={(e) => setCustomerAddress(e.target.value)}
                         />
                     </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="deliveryFee">Ongkos Kirim (Opsional)</Label>
+                        <Input 
+                            id="deliveryFee" 
+                            type="number"
+                            placeholder="0" 
+                            value={deliveryFee}
+                            onChange={(e) => setDeliveryFee(e.target.value)}
+                        />
+                    </div>
                 </div>
 
-                <div className="text-center w-full pt-4 border-t">
-                  <p className="text-sm text-muted-foreground">Total Pembayaran</p>
-                  <h2 className="text-3xl font-bold text-primary">{formatRupiah(totalAmount)}</h2>
+                <div className="text-center w-full pt-4 border-t space-y-1">
+                  <div className="flex justify-between text-sm text-muted-foreground px-8">
+                    <span>Subtotal</span>
+                    <span>{formatRupiah(subTotal)}</span>
+                  </div>
+                  {deliveryFeeNum > 0 && (
+                    <div className="flex justify-between text-sm text-muted-foreground px-8">
+                        <span>Ongkir</span>
+                        <span>{formatRupiah(deliveryFeeNum)}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center text-xl font-bold text-primary pt-2 px-8 border-t mt-2">
+                    <span>Total</span>
+                    <span>{formatRupiah(finalTotal)}</span>
+                  </div>
                 </div>
                 
                 <div className="bg-white p-4 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center w-64 h-64 shrink-0">
@@ -210,7 +241,7 @@ export function CartSheet() {
                   <>
                     <div className="flex justify-between items-center text-lg font-bold">
                         <span>Total</span>
-                        <span>{formatRupiah(totalAmount)}</span>
+                        <span>{formatRupiah(subTotal)}</span>
                     </div>
                     <Button 
                         className="w-full h-12 text-lg" 

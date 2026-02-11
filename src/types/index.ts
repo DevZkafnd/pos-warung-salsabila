@@ -24,6 +24,8 @@ export interface Transaction {
   userId: string;
   items: CartItem[];
   totalAmount: number;
+  deliveryFee?: number;
+  finalAmount: number; // totalAmount + deliveryFee
   cashAmount: number;
   changeAmount: number;
   customerName?: string;

@@ -85,12 +85,18 @@ export const printReceipt = (data: TransactionData) => {
       // Totals
       // Use calculated total if data.totalAmount is fishy, or just use safe parsing
       const safeTotal = parsePrice(data.totalAmount); 
-      const finalTotal = safeTotal > 0 ? safeTotal : calculatedTotal;
+      const safeDeliveryFee = parsePrice(data.deliveryFee);
+      const safeFinalTotal = parsePrice(data.finalAmount) || (safeTotal + safeDeliveryFee);
       
       const safeCash = parsePrice(data.cashAmount);
       const safeChange = parsePrice(data.changeAmount);
 
-      text += formatRow("Total", formatRupiah(finalTotal)) + "\n";
+      text += formatRow("Subtotal", formatRupiah(safeTotal)) + "\n";
+      if (safeDeliveryFee > 0) {
+        text += formatRow("Ongkir", formatRupiah(safeDeliveryFee)) + "\n";
+      }
+      text += formatRow("Total", formatRupiah(safeFinalTotal)) + "\n";
+      text += dashedLine() + "\n"; // Separator before payment info
       text += formatRow("Tunai", formatRupiah(safeCash)) + "\n";
       text += formatRow("Kembali", formatRupiah(safeChange)) + "\n";
 
