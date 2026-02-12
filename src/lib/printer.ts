@@ -42,7 +42,7 @@ export const printReceipt = (data: TransactionData) => {
       // Header
       text += center("WARUNG SALSABILA AL-ARIEF") + "\n";
       text += center("Jln. Sukabirus") + "\n";
-      text += center("NO: 0813-8975-2975") + "\n";
+      text += center("DO: 0813-8975-2975") + "\n";
       text += dashedLine() + "\n";
       
       // Transaction Info
@@ -52,7 +52,6 @@ export const printReceipt = (data: TransactionData) => {
           // Handle Firestore Timestamp or other format
           text += `Tgl: ${new Date().toLocaleString('id-ID')}\n`;
       }
-      text += `No : ${data.id || 'N/A'}\n`;
       
       if (data.customerName) {
         text += `Nama  : ${data.customerName.substring(0, 24)}\n`;
@@ -95,6 +94,7 @@ export const printReceipt = (data: TransactionData) => {
       if (safeDeliveryFee > 0) {
         text += formatRow("Ongkir", formatRupiah(safeDeliveryFee)) + "\n";
       }
+      text += dashedLine() + "\n";
       text += formatRow("Total", formatRupiah(safeFinalTotal)) + "\n";
 
       text += dashedLine() + "\n";
